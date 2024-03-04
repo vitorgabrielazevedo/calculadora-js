@@ -10,20 +10,16 @@ class Calculadora {
     constructor(displayPrevia, displayAtual){
         this.displayPrevia = displayPrevia
         this.displayAtual = displayAtual
-        this.operacaoAtual = "";
+        this.operacaoAtual = ""
     }
 
     adicionarDigito(digito){
-        if(digito === "." && this.operacaoAtual.includes(".")){
-            return
-        }
-            
         this.operacaoAtual = digito 
         this.atualizarDisplay()
     }
 
-    calcular(digito){
-        let resultado = eval(this.displayAtual.innerText);
+    calcular(){
+        let resultado = eval(this.displayAtual.innerText)
         this.displayPrevia.innerText = this.displayAtual.innerText
         this.displayAtual.innerText = resultado
     }
@@ -54,19 +50,19 @@ class Calculadora {
 
     atualizarDisplay(){ 
         this.displayAtual.innerText += this.operacaoAtual
-        //this.displayPrevia.innerText = this.displayAtual.innerText
     }
 }
 
-let sinal = false;
+let sinal = false
+let decimal = false
 let valor = ""
 
 const calculadora = new Calculadora(displayPrevia, displayAtual)
 
 botoesNum.forEach((botao) => {
     botao.addEventListener("click", (evento) => {
-        sinal = false;
-        valor = evento.target.innerText;
+        sinal = false
+        valor = evento.target.innerText
         calculadora.adicionarDigito(valor)
     })
 })
@@ -74,16 +70,20 @@ botoesNum.forEach((botao) => {
 botoesOperador.forEach((botao) => {
     botao.addEventListener("click", (evento) => {
         if(!sinal){
-            sinal = true;
-            valor = evento.target.innerText;
+            sinal = true
+            decimal = false
+            valor = evento.target.innerText
             calculadora.adicionarDigito(valor)
         }
     })
 })
 
 botaoPonto.addEventListener("click", (evento) => {
-    valor = evento.target.innerText;
-    calculadora.adicionarDigito(valor)
+    if(!decimal){
+        decimal = true
+        valor = evento.target.innerText
+        calculadora.adicionarDigito(valor)
+    }
 })
 
 botaoIgual.addEventListener("click", (evento) => {
@@ -92,7 +92,7 @@ botaoIgual.addEventListener("click", (evento) => {
 
 botoesOperacao.forEach((botao) => {
     botao.addEventListener("click", (evento) => {
-        valor = evento.target.innerText;
+        valor = evento.target.innerText
         calculadora.processarOperacoes(valor)
     })
 })
