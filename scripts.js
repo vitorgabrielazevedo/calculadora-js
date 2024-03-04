@@ -14,12 +14,16 @@ class Calculadora {
     }
 
     adicionarDigito(digito){
+        if(digito === "." && this.displayAtual.innerText === ""){
+            digito = "0."
+        }
+
         this.operacaoAtual = digito 
         this.atualizarDisplay()
     }
 
     calcular(){
-        let resultado = eval(this.displayAtual.innerText)
+        let resultado = eval(this.displayAtual.innerText);
         this.displayPrevia.innerText = this.displayAtual.innerText
         this.displayAtual.innerText = resultado
     }
@@ -62,7 +66,7 @@ const calculadora = new Calculadora(displayPrevia, displayAtual)
 botoesNum.forEach((botao) => {
     botao.addEventListener("click", (evento) => {
         sinal = false
-        valor = evento.target.innerText
+        valor = evento.target.innerText;
         calculadora.adicionarDigito(valor)
     })
 })
@@ -72,7 +76,7 @@ botoesOperador.forEach((botao) => {
         if(!sinal){
             sinal = true
             decimal = false
-            valor = evento.target.innerText
+            valor = evento.target.innerText;
             calculadora.adicionarDigito(valor)
         }
     })
@@ -81,7 +85,7 @@ botoesOperador.forEach((botao) => {
 botaoPonto.addEventListener("click", (evento) => {
     if(!decimal){
         decimal = true
-        valor = evento.target.innerText
+        valor = evento.target.innerText;
         calculadora.adicionarDigito(valor)
     }
 })
@@ -92,11 +96,7 @@ botaoIgual.addEventListener("click", (evento) => {
 
 botoesOperacao.forEach((botao) => {
     botao.addEventListener("click", (evento) => {
-        valor = evento.target.innerText
+        valor = evento.target.innerText;
         calculadora.processarOperacoes(valor)
     })
 })
-
-// operadores são adicionados sem números antes
-// ponto
-// del apaga resultado
