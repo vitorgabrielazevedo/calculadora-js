@@ -1,4 +1,5 @@
 // selecionando os elementos
+
 const displayPreview = document.querySelector("#display-preview");
 const displayAtual = document.querySelector("#display-atual");
 const numBtn = document.querySelectorAll(".num");
@@ -15,12 +16,17 @@ class Calculadora {
   }
 
   atualizarDisplay() {
-    this.displayPreview += this.displayAtual;
+    this.displayAtual.innerText += this.operacaoAtual;
+    this.displayPreview.innerText = this.displayAtual.innerText;
   }
 
   adicionarDigito(digito) {
     this.operacaoAtual = digito;
     this.atualizarDisplay();
+  }
+
+  calcular() {
+    const result = eval(this.displayAtual.innerText);
   }
 }
 
@@ -34,6 +40,18 @@ numBtn.forEach((btn) => {
 
     calculadora.adicionarDigito(digito);
   });
+});
+
+opBtn.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const digito = e.target.innerText;
+
+    calculadora.adicionarDigito(digito);
+  });
+});
+
+resultBtn.addEventListener("click", () => {
+  calculadora.calcular();
 });
 
 // const displayPrevia = document.querySelector("#previa");
