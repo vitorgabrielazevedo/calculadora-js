@@ -4,7 +4,10 @@ const displayPreview = document.querySelector("#display-preview");
 const displayAtual = document.querySelector("#display-atual");
 const numBtn = document.querySelectorAll(".num");
 const opBtn = document.querySelectorAll(".operador");
+const decimalBtn = document.querySelector(".decimal");
 const resultBtn = document.querySelector(".igual");
+
+let displayValue = "";
 
 // classe
 
@@ -21,12 +24,31 @@ class Calculadora {
   }
 
   adicionarDigito(digito) {
+    if (digito === "." && this.displayAtual.innerText === "") {
+      digito = "0.";
+    }
+
     this.operacaoAtual = digito;
     this.atualizarDisplay();
   }
 
+  adicionarDecimal() {
+    const ultimoNumero = this.getUltimoNumero();
+
+    if (!ultimoNumero.includes(".")) {
+      displayValue += ".";
+      this.atualizarDisplay();
+    }
+  }
+
+  getUltimoNumero() {
+    const numbers = displayValue.split(/[\+\-\*\/]/);
+    return numbers[numbers.length - 1];
+  }
+
   calcular() {
     const result = eval(this.displayAtual.innerText);
+    this.displayAtual.innerText = result;
   }
 }
 
@@ -37,9 +59,14 @@ const calculadora = new Calculadora(displayPreview, displayAtual);
 numBtn.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     const digito = e.target.innerText;
+    displayValue += digito;
 
     calculadora.adicionarDigito(digito);
   });
+});
+
+decimalBtn.addEventListener("click", () => {
+  calculadora.adicionarDecimal();
 });
 
 opBtn.forEach((btn) => {

@@ -48,7 +48,7 @@ button:hover {
 #display-atual {
   padding: 0.5rem;
   overflow-wrap: break-word;
-  min-height: 4rem;
+  min-height: 5rem;
 }
 
 #previa {
