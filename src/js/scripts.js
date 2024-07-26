@@ -2,12 +2,7 @@
 
 const displayPreview = document.querySelector("#display-preview");
 const displayAtual = document.querySelector("#display-atual");
-const numBtn = document.querySelectorAll(".num");
-const opBtn = document.querySelectorAll(".operador");
-const decimalBtn = document.querySelector(".decimal");
-const resultBtn = document.querySelector(".igual");
-
-let displayValue = "";
+const buttons = document.querySelectorAll("#teclado button");
 
 // classe
 
@@ -18,37 +13,29 @@ class Calculadora {
     this.operacaoAtual = "";
   }
 
-  atualizarDisplay() {
-    this.displayAtual.innerText += this.operacaoAtual;
-    this.displayPreview.innerText = this.displayAtual.innerText;
-  }
+  // adicionar digito à tela da calculadora
 
   adicionarDigito(digito) {
-    if (digito === "." && this.displayAtual.innerText === "") {
-      digito = "0.";
-    }
+    // checar se já existe um ponto no número
+
+    if (digito === "." && this.displayAtual.innerText.includes(".")) return;
 
     this.operacaoAtual = digito;
-    this.atualizarDisplay();
+    this.atualizarScreen();
   }
 
-  adicionarDecimal() {
-    const ultimoNumero = this.getUltimoNumero();
+  // atualizar screen com novos valores
 
-    if (!ultimoNumero.includes(".")) {
-      displayValue += ".";
-      this.atualizarDisplay();
-    }
+  atualizarScreen() {
+    this.displayAtual.innerText += this.operacaoAtual;
   }
 
-  getUltimoNumero() {
-    const numbers = displayValue.split(/[\+\-\*\/]/);
-    return numbers[numbers.length - 1];
-  }
+  // processar todas as operações
 
-  calcular() {
-    const result = eval(this.displayAtual.innerText);
-    this.displayAtual.innerText = result;
+  processarOperacao(operacao) {
+    let operador;
+    const preview = +this.displayPreview.innerText;
+    const valorAtual = +this.displayAtual.innerText;
   }
 }
 
@@ -56,29 +43,16 @@ const calculadora = new Calculadora(displayPreview, displayAtual);
 
 // eventos
 
-numBtn.forEach((btn) => {
+buttons.forEach((btn) => {
   btn.addEventListener("click", (e) => {
-    const digito = e.target.innerText;
-    displayValue += digito;
+    const valor = e.target.innerText;
 
-    calculadora.adicionarDigito(digito);
+    if (+valor >= 0 || valor === ".") {
+      calculadora.adicionarDigito(valor);
+    } else {
+      calculadora.processarOperacao(valor);
+    }
   });
-});
-
-decimalBtn.addEventListener("click", () => {
-  calculadora.adicionarDecimal();
-});
-
-opBtn.forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const digito = e.target.innerText;
-
-    calculadora.adicionarDigito(digito);
-  });
-});
-
-resultBtn.addEventListener("click", () => {
-  calculadora.calcular();
 });
 
 // const displayPrevia = document.querySelector("#previa");

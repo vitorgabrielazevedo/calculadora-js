@@ -57,6 +57,7 @@ button:hover {
 
 #display-atual {
   font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 /* teclado */
@@ -67,7 +68,7 @@ button:hover {
   gap: 3px;
 }
 
-.num {
+.numero {
   background-color: #f3f3f3;
 }
 
