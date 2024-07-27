@@ -42,20 +42,20 @@ button:hover {
 
 #display {
   text-align: right;
+  min-height: 115px;
 }
 
-#display-previa,
-#display-atual {
+#operacao-anterior,
+#operacao-atual {
   padding: 0.5rem;
   overflow-wrap: break-word;
-  min-height: 5rem;
 }
 
-#previa {
+#operacao-anterior {
   color: #777;
 }
 
-#display-atual {
+#operacao-atual {
   font-size: 2.5rem;
   margin-bottom: 1rem;
 }

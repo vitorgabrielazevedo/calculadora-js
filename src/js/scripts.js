@@ -1,15 +1,15 @@
 // selecionando os elementos
 
-const displayPreview = document.querySelector("#display-preview");
-const displayAtual = document.querySelector("#display-atual");
+const operacaoAnteriorText = document.querySelector("#operacao-anterior");
+const operacaoAtualText = document.querySelector("#operacao-atual");
 const buttons = document.querySelectorAll("#teclado button");
 
 // classe
 
 class Calculadora {
-  constructor(displayPreview, displayAtual) {
-    this.displayPreview = displayPreview;
-    this.displayAtual = displayAtual;
+  constructor(operacaoAnteriorText, operacaoAtualText) {
+    this.operacaoAnteriorText = operacaoAnteriorText;
+    this.operacaoAtualText = operacaoAtualText;
     this.operacaoAtual = "";
   }
 
@@ -18,28 +18,87 @@ class Calculadora {
   adicionarDigito(digito) {
     // checar se já existe um ponto no número
 
-    if (digito === "." && this.displayAtual.innerText.includes(".")) return;
+    if (digito === "." && this.operacaoAtual.innerText.includes(".")) return;
 
     this.operacaoAtual = digito;
     this.atualizarScreen();
   }
 
-  // atualizar screen com novos valores
-
-  atualizarScreen() {
-    this.displayAtual.innerText += this.operacaoAtual;
-  }
-
   // processar todas as operações
 
-  processarOperacao(operacao) {
-    let operador;
-    const preview = +this.displayPreview.innerText;
-    const valorAtual = +this.displayAtual.innerText;
+  processarOperacao(operador) {
+    let valorOperacao;
+    const valorAnterior = +this.operacaoAnteriorText.innerText.split(" ")[0];
+    const valorAtual = +this.operacaoAtualText.innerText;
+
+    switch (operador) {
+      case "+":
+        valorOperacao = valorAnterior + valorAtual;
+        this.atualizarScreen(
+          valorOperacao,
+          operador,
+          valorAnterior,
+          valorAtual
+        );
+        break;
+      case "-":
+        valorOperacao = valorAnterior - valorAtual;
+        this.atualizarScreen(
+          valorOperacao,
+          operador,
+          valorAnterior,
+          valorAtual
+        );
+        break;
+      case "x":
+        valorOperacao = valorAnterior * valorAtual;
+        this.atualizarScreen(
+          valorOperacao,
+          operador,
+          valorAnterior,
+          valorAtual
+        );
+        break;
+      case "/":
+        valorOperacao = valorAnterior / valorAtual;
+        this.atualizarScreen(
+          valorOperacao,
+          operador,
+          valorAnterior,
+          valorAtual
+        );
+        break;
+      default:
+        return;
+    }
+  }
+
+  // atualizar screen com novos valores
+
+  atualizarScreen(
+    valorOperacao = null,
+    operador = null,
+    valorAnterior = null,
+    valorAtual = null
+  ) {
+    console.log(valorOperacao, operador, valorAnterior, valorAtual);
+
+    if (valorOperacao === null) {
+      this.operacaoAtualText.innerText += this.operacaoAtual;
+    } else {
+      // checar se o valor é zero, adiciona o valorAtual
+
+      if (valorAnterior === 0) {
+        valorOperacao = valorAtual;
+      }
+
+      this.operacaoAnteriorText.innerText = `${valorOperacao} ${operador}`;
+      this.operacaoAtualText.innerText = "";
+    }
   }
 }
 
-const calculadora = new Calculadora(displayPreview, displayAtual);
+const calculadora = new Calculadora(operacaoAnteriorText, operacaoAtualText);
 
 // eventos
 
@@ -56,7 +115,7 @@ buttons.forEach((btn) => {
 });
 
 // const displayPrevia = document.querySelector("#previa");
-// const displayAtual = document.querySelector("#operacao-atual");
+// const operacaoAtual = document.querySelector("#operacao-atual");
 // const botaoIgual = document.querySelector(".igual");
 // const botaoPonto = document.querySelector(".ponto");
 // const botoesNum = document.querySelectorAll(".num");
@@ -64,14 +123,14 @@ buttons.forEach((btn) => {
 // const botoesOperacao = document.querySelectorAll(".operacao");
 
 // class Calculadora {
-//   constructor(displayPrevia, displayAtual) {
+//   constructor(displayPrevia, operacaoAtual) {
 //     this.displayPrevia = displayPrevia;
-//     this.displayAtual = displayAtual;
+//     this.operacaoAtual = operacaoAtual;
 //     this.operacaoAtual = "";
 //   }
 
 //   adicionarDigito(digito) {
-//     if (digito === "." && this.displayAtual.innerText === "") {
+//     if (digito === "." && this.operacaoAtual.innerText === "") {
 //       digito = "0.";
 //     }
 
@@ -80,22 +139,22 @@ buttons.forEach((btn) => {
 //   }
 
 //   calcular() {
-//     let resultado = eval(this.displayAtual.innerText);
-//     this.displayPrevia.innerText = this.displayAtual.innerText;
-//     this.displayAtual.innerText = resultado;
+//     let resultado = eval(this.operacaoAtual.innerText);
+//     this.displayPrevia.innerText = this.operacaoAtual.innerText;
+//     this.operacaoAtual.innerText = resultado;
 //   }
 
 //   processarDelOp() {
-//     this.displayAtual.innerText = this.displayAtual.innerText.slice(0, -1);
+//     this.operacaoAtual.innerText = this.operacaoAtual.innerText.slice(0, -1);
 //     this.displayPrevia.innerText = this.displayPrevia.innerText.slice(0, -1);
 //   }
 
 //   processarCOp() {
-//     this.displayAtual.innerText = "";
+//     this.operacaoAtual.innerText = "";
 //   }
 
 //   processarCEOp() {
-//     this.displayAtual.innerText = "";
+//     this.operacaoAtual.innerText = "";
 //     this.displayPrevia.innerText = "";
 //   }
 
@@ -110,7 +169,7 @@ buttons.forEach((btn) => {
 //   }
 
 //   atualizarDisplay() {
-//     this.displayAtual.innerText += this.operacaoAtual;
+//     this.operacaoAtual.innerText += this.operacaoAtual;
 //   }
 // }
 
@@ -118,7 +177,7 @@ buttons.forEach((btn) => {
 // let decimal = false;
 // let valor = "";
 
-// const calculadora = new Calculadora(displayPrevia, displayAtual);
+// const calculadora = new Calculadora(displayPrevia, operacaoAtual);
 
 // botoesNum.forEach((botao) => {
 //   botao.addEventListener("click", (evento) => {
